@@ -25,3 +25,4 @@
 - name: Convert pullsecret to JSON
   set_fact:
     pullsecret: "{{ pullsecret | to_json }}"
+  when: pullsecret is mapping
