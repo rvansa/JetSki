@@ -1,20 +1,20 @@
 # Your allocation name/number in the shared labs
-cloud_name: cloud00
+cloud_name: cloud08
 # Lab name, typically can be alias or scale
 lab_name: scale
 # Default root password to your nodes in the lab allocation so that keys can be added automatically for ansible to run
-ansible_ssh_pass: password
+ansible_ssh_pass: 100yard-
 # Location of the private key of the user running the ansible playbook, leave default
 ansible_ssh_key: "{{ ansible_user_dir }}/.ssh/id_rsa"
 # The version of the openshift-installer, undefined or empty results in the playbook failing with error message.
 # Values accepted: 'latest-4.3', 'latest-4.4', explicit version i.e. 4.3.0-0.nightly-2019-12-09-035405
 # For reference, https://openshift-release.svc.ci.openshift.org/
-version: "4.4.4"
+version: "latest-4.8"
 # Enter whether the build should use 'dev' (nightly builds) or 'ga' for Generally Available version of OpenShift
 # Empty value results in playbook failing with error message.
 build: "ga"
 # Your pull secret, as is. https://cloud.redhat.com/openshift/install (Do not add any quotes)
-pullsecret:
+pullsecret: {"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K3J2YW5zYTFyZWRoYXRjb20xbXM4ZnZ4ZnpicWRpNmRyY3RsaDN5NHU2Ym06SzBJWk9GWE9VVVFGNjRIMFFSRzZXV0xWVDRZUklWS0JYVUhWV0VEUkE0SDhVVVpLSEpXRlRMTUlBV0IwUTcyNw==","email":"rvansa@redhat.com"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K3J2YW5zYTFyZWRoYXRjb20xbXM4ZnZ4ZnpicWRpNmRyY3RsaDN5NHU2Ym06SzBJWk9GWE9VVVFGNjRIMFFSRzZXV0xWVDRZUklWS0JYVUhWV0VEUkE0SDhVVVpLSEpXRlRMTUlBV0IwUTcyNw==","email":"rvansa@redhat.com"},"registry.connect.redhat.com":{"auth":"NTE4NTc1Nzh8dWhjLTFNUzhGdnhmWkJxRGk2RHJDVGxoM1k0VTZCTTpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSXdZams1T1RBM1pEQTFOemswWldJM1lqVm1OekprTUdZMlpHVmlOVGhsTUNKOS5oVEM1YWhuMFd4eE1kV1BSM3o2dGU4NzlmVDBPWEdUcWQwbmlLUFotMHlFOHpHVWEyTDVmaWVKdG4zUFQ0em9uLWhwUjEwNFh6R1lYdk1KM21vMzlTelNEVHhxbTZCdXRFc19aTFNXOWR2aEUxcWRTSEpmaEpKeVFFV3QyTnJzdGZqUklFLWNOTGtCM2d2WF9MbkpTcjRlcTJLQ2pQeGNLRXVUd0IwNUZDZFRKTTc1QUNBWWpKQ01HWGtuMlNraHhDWkducUxqZlVBYXJTSWhIeUd4RXp0Q2diVjRsdUxRUHhsZ2dEOTZfcmc2d29veW9sSUd1cGI1MEZGY1h1aU0wb2NoaXhzUWdZdjRVaTN4R1JfbVJFa0NCZDdLYm9WZ0RxQUFkYU1RYl9pUC1FS0pCZzFDSlozSUMyUmFycjRDT09aN0FBOU9XRFVZWTd6bjRnRl9KaTlxNFlfOGFCZVNoR3NWUlNjS3dsaW51UUtRN1dxM1labU9uSUYyQWNOWEExZkdwYTdoY3Myd1NXNkM4X2l0cjdHSEVScTczZzAzZUwyLWplQkxncEcwaFJxU2tSUEloVEQtdFJjZEFQeEt5NC1kUHlVbEt5aGF0QUVPQVlNUnltZHJWN1luZUNsSWd6NjhrYVF4Z0RPcjhLeHpmdWJqWGZncHdUdmxISGFfeTJ6NTZjcklpVDhRbHQwTl96MktmMlc1dHJjb29JZ1JQNlRZWXpaSklrenVJZXhLZEhKc25ZWTVYZVNwSFhRV3ZvSFB6d0RLRGhlZ3ZGUHBXSjZKbEtYTFQ5VXJHcWN6Nk1ERTZkWTlYZUxMcTV5NzdENTVwQk1nX1BaTnNVTjR2QzlpTWpnM00xUTZyOGlXSnNJVU1EQ0kxQ2dwY3hQYjZUYVI5eENlam1xMA==","email":"rvansa@redhat.com"},"registry.redhat.io":{"auth":"NTE4NTc1Nzh8dWhjLTFNUzhGdnhmWkJxRGk2RHJDVGxoM1k0VTZCTTpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSXdZams1T1RBM1pEQTFOemswWldJM1lqVm1OekprTUdZMlpHVmlOVGhsTUNKOS5oVEM1YWhuMFd4eE1kV1BSM3o2dGU4NzlmVDBPWEdUcWQwbmlLUFotMHlFOHpHVWEyTDVmaWVKdG4zUFQ0em9uLWhwUjEwNFh6R1lYdk1KM21vMzlTelNEVHhxbTZCdXRFc19aTFNXOWR2aEUxcWRTSEpmaEpKeVFFV3QyTnJzdGZqUklFLWNOTGtCM2d2WF9MbkpTcjRlcTJLQ2pQeGNLRXVUd0IwNUZDZFRKTTc1QUNBWWpKQ01HWGtuMlNraHhDWkducUxqZlVBYXJTSWhIeUd4RXp0Q2diVjRsdUxRUHhsZ2dEOTZfcmc2d29veW9sSUd1cGI1MEZGY1h1aU0wb2NoaXhzUWdZdjRVaTN4R1JfbVJFa0NCZDdLYm9WZ0RxQUFkYU1RYl9pUC1FS0pCZzFDSlozSUMyUmFycjRDT09aN0FBOU9XRFVZWTd6bjRnRl9KaTlxNFlfOGFCZVNoR3NWUlNjS3dsaW51UUtRN1dxM1labU9uSUYyQWNOWEExZkdwYTdoY3Myd1NXNkM4X2l0cjdHSEVScTczZzAzZUwyLWplQkxncEcwaFJxU2tSUEloVEQtdFJjZEFQeEt5NC1kUHlVbEt5aGF0QUVPQVlNUnltZHJWN1luZUNsSWd6NjhrYVF4Z0RPcjhLeHpmdWJqWGZncHdUdmxISGFfeTJ6NTZjcklpVDhRbHQwTl96MktmMlc1dHJjb29JZ1JQNlRZWXpaSklrenVJZXhLZEhKc25ZWTVYZVNwSFhRV3ZvSFB6d0RLRGhlZ3ZGUHBXSjZKbEtYTFQ5VXJHcWN6Nk1ERTZkWTlYZUxMcTV5NzdENTVwQk1nX1BaTnNVTjR2QzlpTWpnM00xUTZyOGlXSnNJVU1EQ0kxQ2dwY3hQYjZUYVI5eENlam1xMA==","email":"rvansa@redhat.com"}}}
 # This variable is used to point to the foreman server that is used to reimage nodes. This variables is useful in two cases
 # 1. When the first node in your allocation (provisioning host) is not having RHEL 8.1 OS, it is automatically rebuilt with 
 # RHEL 8.1 as the OCP installer expects the provisioning host to be RHEL 8.1. In some other cases, maybe when you have an 
@@ -25,7 +25,7 @@ pullsecret:
 # prefix even if url in the email has http. Also, the url in email might have the '/hosts' path appended, we can remove 'hosts' from url 
 # and have it be https://foreman.example.com for example. If you are having trouble figuring out this variable please look for the 
 # pastebins under the "Modifying the ansible-ipi-install/group_vars/all.yml file" section in README.md
-foreman_url: https://foreman.example.com/
+foreman_url: https://foreman.rdu2.scalelab.redhat.com/
 # Choose a provisioner node from the allocated cloud, this is optional.
 # Same thing can also be achieved by editing ocpinv.json file and reorder the nodes list. 
 # https://github.com/redhat-performance/JetSki#changing-node-rolesexcluding-nodes-in-your-allocation-from-the-deployment
@@ -41,7 +41,7 @@ rebuild_provisioner: false
 # Update this variable to scale up your existing cluster, provided lab allocation is sufficient to scale up to this count. 
 # If not mentioned for a scale up execution, it includes all node available in the inventory `ocpnondeployednodeinv.json`
 # If mentioned, this value should be final worker count and cannot be less than existing worker_count.
-worker_count: 0
+worker_count: 4
 # set to true to deploy with jumbo frames
 jumbo_mtu: false
 # set to true only if you requested a public routable VLAN for your cloud in scale lab

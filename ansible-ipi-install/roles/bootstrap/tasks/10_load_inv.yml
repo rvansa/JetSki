@@ -1,3 +1,9 @@
+
+- name: check
+  fail:
+    msg: No offset
+  when: node_inv_offset == 0
+
 - name: Create temporary directory for inventory
   tempfile:
     state: directory
@@ -123,7 +129,7 @@
     content: "{{ lookup('template', 'node_inv.j2') | to_nice_json  }}"
   become: true
   vars:
-    query: nodes[0:3]
+    query: nodes[{{ node_inv_offset }}:{{ node_inv_offset + 3 }}]
     node: master
     
 - name: read env file
@@ -137,16 +143,16 @@
 
 - name: set fact for master mgmt
   set_fact:
-    master_mgmts:  "{{ ocp_node_content| json_query('nodes[0:3].pm_addr')}}"
+    master_mgmts:  "{{ ocp_node_content| json_query('nodes[' ~ node_inv_offset ~ ':' ~ (node_inv_offset + 3) ~ '].pm_addr')}}"
 
 - name: Set worker count
   set_fact:
-    worker_count: "{{ ocp_node_content.nodes | length - 3 }}"
+    worker_count: "{{ ocp_node_content.nodes | length - 3 - node_inv_offset }}"
   when: worker_count is not defined 
 
 - name: Set worker index
   set_fact:
-    worker_index: "{{ worker_count | int + 3 }}"
+    worker_index: "{{ worker_count | int + node_inv_offset + 3 }}"
 
 - name: dump deploying worker nodes to a file
   copy:
@@ -154,9 +160,9 @@
     content: "{{ lookup('template', 'node_inv.j2') | to_nice_json  }}"
   become: true
   vars:
-    query: nodes[3:{{worker_index}}]
+    query: nodes[{{ node_inv_offset + 3 }}:{{worker_index}}]
     node: worker
-    ip_nth: 3  # Already assigned 3 master IPs
+    ip_nth: 3 # Already assigned 3 master IPs
 
 - name: read env file
   slurp:
@@ -171,7 +177,7 @@
   set_fact:
     worker_mgmts: "{{ ocp_node_content| json_query(query)}}"
   vars:
-    query: nodes[3:{{worker_index}}].pm_addr
+    query: nodes[{{ node_inv_offset + 3}}:{{worker_index}}].pm_addr
 
 # Make sure required number of workers are available (useful when user passes wrong worker_count value)
 - name: Fail when required number of worker nodes cannot be provisioned
@@ -343,14 +349,14 @@
 
 - name: set fact for master provisioning macs
   set_fact:
-    master_prov_macs:  "{{ ocp_node_content| json_query('nodes[0:3].mac[1]')}}"
+    master_prov_macs:  "{{ ocp_node_content| json_query('nodes[' ~ node_inv_offset ~ ':' ~ (node_inv_offset + 3) ~ '].mac[1]')}}"
 
 # Works even in case of 0 workers as json_query returns empty list
 - name: set fact for worker provisioning macs
   set_fact:
     worker_prov_macs:  "{{ ocp_node_content| json_query(query)}}"
   vars:
-    query: nodes[3:{{worker_index}}].mac[1]
+    query: nodes[{{ node_inv_offset + 3 }}:{{worker_index}}].mac[1]
 
 - name: dump non deploying worker nodes to a file
   copy:
@@ -358,9 +364,9 @@
     content: "{{ lookup('template', 'node_inv.j2') | to_nice_json  }}"
   become: true
   vars:
-    query: nodes[{{worker_index}}:]
+    query: nodes[{{worker_index}}:] # We are missing the offset nodes
     node: worker
-    ip_nth: "{{worker_index|int}}"
+    ip_nth: "{{worker_index|int - node_inv_offset}}"
     wrkr_index: "{{worker_count|int}}"
 
 - name: read env file

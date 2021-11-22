@@ -28,16 +28,17 @@ dir="{{ ansible_user_dir }}/clusterconfigs"
 # Provide the webserver URL as shown below if using fully disconnected
 #webserver_url=http://example.com:<port>
 
+provisioner_hostname=f25-h31-000-r630.rdu2.scalelab.redhat.com
 # (Optional) Provisioning IP Network and dhcp range (default value)
 # If defined, make sure to update 'prov_ip' with a valid IP outside of your 'prov_dhcp_range' and update all other places like 'no_proxy_list'
-# prov_network=172.22.0.0/21
-prov_dhcp_range="172.22.0.10,172.22.7.254"
+prov_network=172.22.0.0/21
+prov_dhcp_range="172.22.0.30,172.22.0.36"
+#prov_network=172.22.0.0/21
+#prov_dhcp_range="172.22.0.10,172.22.7.254"
 
 # Provisioning IP address (default value)
-prov_ip=172.22.0.3
-
-# Provisioning IP address (default value)
-prov_ip=172.22.0.3
+prov_ip=172.22.0.23
+#prov_ip=172.22.0.3
 
 # (Optional) Enable playbook to pre-download RHCOS images prior to cluster deployment and use them as a local
 # cache. Default is false.
@@ -122,27 +123,31 @@ sctp=false
 # Base domain, i.e. example.com
 domain="scalelab"
 # Name of the cluster, i.e. openshift
-cluster="cluster-a"
+cluster="cluster-b"
 # Note: Under some conditions, it may be useful to randomize the cluster name. For instance,
 # when redeploying an existing environment this can help avoid VRID conflicts. You can
 # set the cluster_random boolean below to true to append a random number to you cluster name.
 cluster_random=false
 # The public CIDR address, i.e. 10.1.1.0/21
 extcidrnet="192.168.216.0/21"
+#extcidrnet="192.168.216.0/21"
 # The public CIDR address for IPv6 only and Dual-Stack deploys
+#extcidrnet6="fd01:1102::/64"
 extcidrnet6="fd01:1101::/64"
+
+extcidrnet_offset=20
 
 # NOTE: For the RH shared labs, the VIPs below are automated w/ variables
 #       based on the extcidrnet above.
 
 # An IP reserved on the baremetal network. 
-dnsvip="{{ extcidrnet | next_nth_usable(2) }}"
+dnsvip="{{ extcidrnet | next_nth_usable(extcidrnet_offset + 2) }}"
 # An IP reserved on the baremetal network for the API endpoint. 
 # (Optional) If not set, a DNS lookup verifies that api.<clustername>.<domain> provides an IP
-apivip="{{ extcidrnet | next_nth_usable(3) }}"
+apivip="{{ extcidrnet | next_nth_usable(extcidrnet_offset + 3) }}"
 # An IP reserved on the baremetal network for the Ingress endpoint.
 # (Optional) If not set, a DNS lookup verifies that *.apps.<clustername>.<domain> provides an IP
-ingressvip="{{ extcidrnet | next_nth_usable(4) }}"
+ingressvip="{{ extcidrnet | next_nth_usable(extcidrnet_offset + 4) }}"
 # The master hosts provisioning nic
 # (Optional) If not set, the prov_nic will be used
 #masters_prov_nic=""
@@ -213,6 +218,8 @@ bootmode=legacy
 #   content sources for the local registry. The contents of this file
 #   will be appended to the install-config.yml file.
 # disconnected_registry_mirrors_file=/path/to/install-config-appends.json
+
+node_inv_offset=7
 
 [orchestration]
 localhost ansible_connection=local ansible_python_interpreter="{{ ansible_playbook_python }}"

@@ -10,11 +10,14 @@
 
 - name: Get the bm mac address on provisioner node
   set_fact:
-    bm_mac: "{{ ( routable_api | bool ) | ternary (hostvars[groups['orchestration'][0]]['ocpinv_content']['nodes'][prov_index|int].mac[-1] | lower, hostvars[groups['orchestration'][0]]['ocpinv_content']['nodes'][prov_index|int].mac[2] | lower) }}"
+    bm_mac: "{{ ( routable_api | bool ) | ternary (hostvars[groups['orchestration'][0]]['ocpinv_content']['nodes'][prov_index|int].mac[-1] | lower, hostvars[groups['orchestration'][0]]['ocpinv_content']['nodes'][prov_index|int].mac[3] | lower) }}"
 
 - name: Get the bm provisioning address on provisioner node
   set_fact:
     prov_mac: "{{ hostvars[groups['orchestration'][0]]['ocpinv_content']['nodes'][prov_index|int].mac[1] | lower }}"
+
+- debug:
+    msg: "bm_mac = {{ bm_mac }} and prov_mac = {{ prov_mac }}"
 
 - name: Set the lab public nic
   set_fact: 
@@ -48,12 +51,12 @@
 
 - name: Set lab_pub_nics for master
   set_fact:
-    lab_pub_nics: []
+    lab_pub_nics: []      
 
 - name: Set lab_pub_nics for master
   set_fact:
     lab_pub_nics: ["eno1"]
-  when: ( "'r640' in master_types" ) or ( "'r640' in worker_types" )
+  when: ( 'r640' in master_types ) or ( 'r640' in worker_types )
 
 - name: Setting public and prov nics 
   block:
@@ -97,3 +100,10 @@
   set_fact:
     disable_nics: "{{ lab_pub_nics | unique }}"
 
+
+- name: Including clusterA interface
+  set_fact:
+    disable_nics: "{{ disable_nics + ['eno3']  }}"
+
+- debug: 
+    msg: "{{ disable_nics }}"  

@@ -1,4 +1,4 @@
-listen-address={{ extcidrnet | next_nth_usable(1) }}
+listen-address={{ extcidrnet | next_nth_usable(extcidrnet_offset + 1) }}
 bind-interfaces
 strict-order
 local=/{{ cluster }}.{{ domain }}/
@@ -10,13 +10,14 @@ interface=baremetal
 {% if jumbo_mtu %}
 dhcp-option=baremetal,26,9000
 {% endif %}
-dhcp-range={{ extcidrnet | next_nth_usable(10) }},{{ extcidrnet | ipaddr('last_usable') }}
+dhcp-range={{ extcidrnet | next_nth_usable(extcidrnet_offset + 10) }},static
 dhcp-no-override
 dhcp-authoritative
 {% if (ipv6_enabled and dualstack_baremetal) and not (ipv4_baremetal) %}
-dhcp-range={{ extcidrnet6 | next_nth_usable(10) }},{{ extcidrnet6 | ipaddr('last_usable') }}
+dhcp-range={{ extcidrnet6 | next_nth_usable(extcidrnet_offset + 9) }},static
 enable-ra
 {% endif %}
+dhcp-host=52:54:00:2A:92:63,{{ extcidrnet | next_nth_usable(extcidrnet_offset + 9) }},bootstrap
 {% for node in ocp_deploying_node_content.nodes %}
 dhcp-host={{ node.bm_mac }},{{ node.ext_ip }},{{ node.host_name }}
 {% endfor %}
